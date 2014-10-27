@@ -1,0 +1,16 @@
+#!/bin/bash
+
+NAME=$1
+if [ "x${NAME}" == "x" ]; then
+  echo "Usage: $0 <container-name>"
+  exit 1
+fi
+
+cd /opt/images/$NAME
+git pull || exit 2
+docker build --tag=$NAME . || exit 3
+docker stop $NAME || exit 4
+docker rm $NAME || exit 5
+
+OPTS=$(cat run-opts)
+exec docker run -d $OPTS --name=$NAME $NAME

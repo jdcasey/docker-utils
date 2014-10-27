@@ -1,0 +1,4 @@
+#!/bin/bash
+
+/usr/bin/docker start -d -p 1053:1053 -p 1053:1053/udp public-dns
+
